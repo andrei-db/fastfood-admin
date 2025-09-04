@@ -11,7 +11,7 @@ export default function EditProduct() {
     const [loading, setLoading] = useState(true);
     const [open, setConfirmModalOpen] = useState(false);
     const { id } = useParams();
-
+    const [file, setFile] = useState(null);
     useEffect(() => {
         fetch(`http://localhost:5000/products/${id}`)
             .then((res) => res.json())
@@ -28,10 +28,31 @@ export default function EditProduct() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        let imageUrl = image;
+
+        if (file) {
+            const formData = new FormData();
+            formData.append("image", file);
+
+            const uploadRes = await fetch("http://localhost:5000/upload", {
+                method: "POST",
+                body: formData,
+            });
+
+            const { url } = await uploadRes.json();
+            imageUrl = url;
+        }
+
         const res = await fetch(`http://localhost:5000/products/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, description, image, price, category }),
+            body: JSON.stringify({
+                name,
+                description,
+                price,
+                category,
+                image: imageUrl,
+            }),
         });
 
         if (res.ok) {
@@ -39,12 +60,12 @@ export default function EditProduct() {
         }
     };
     const handleFileChange = (e) => {
-        const file = e.target.files[0]
-        if (file) {
-            const url = URL.createObjectURL(file)
-            setImage(url)
+        const f = e.target.files[0];
+        if (f) {
+            setFile(f);
+            setImage(URL.createObjectURL(f));
         }
-    }
+    };
     if (loading) return <p>Loading...</p>;
     return (
         <div className="ms-64 p-5 flex flex-col min-h-screen">
@@ -111,10 +132,10 @@ export default function EditProduct() {
                          placeholder:font-normal placeholder:text-gray-500  p-2 w-full"
                                 />
                             </div>
-                                <input type="text"
-                                    value={image}
-                                    className="hidden"
-                                />
+                            <input type="text"
+                                value={image}
+                                className="hidden"
+                            />
                             <div className="flex flex-col w-full">
                                 <label className="text-start bg-white">Price</label>
                                 <input
