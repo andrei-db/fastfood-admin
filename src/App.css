@@ -1,7 +1,6 @@
 @import "tailwindcss";
 #root {
   text-align: center;
-  display: flex;
 }
 
 .logo {
