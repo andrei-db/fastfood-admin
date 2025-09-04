@@ -5,7 +5,7 @@ import Products from './pages/Products'
 import Settings from './pages/Settings'
 import AddProduct from './pages/AddProduct'
 import Sidebar from './components/sidebar'
-
+import EditProduct from './pages/EditProduct'
 function App() {
 
   return (
@@ -17,6 +17,7 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/products/add" element={<AddProduct />} />
+        <Route path="/products/:id" element={<EditProduct />} />
       </Routes>
       
     </>
