@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Hamburger, LayoutDashboard, Settings} from "lucide-react";
+import { Hamburger, LayoutDashboard, Settings, Receipt} from "lucide-react";
 export default function Sidebar() {
   return (
     <div className="fixed top-0 left-0 w-64 h-full bg-white text-black shadow-lg">
@@ -36,6 +36,19 @@ export default function Sidebar() {
         >
             <Hamburger className="me-3"/>
           Products
+        </NavLink>
+        <NavLink
+          to="/orders"
+          className={({ isActive }) =>
+            `flex px-3 py-2 rounded-lg transition my-2 ${
+              isActive
+                ? "bg-red-500 text-white"
+                : "text-gray-700 hover:bg-gray-200"
+            }`
+          }
+        >
+            <Receipt className="me-3" />
+          Orders
         </NavLink>
         <NavLink
           to="/settings"
