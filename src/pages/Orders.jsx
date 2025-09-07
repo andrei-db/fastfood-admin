@@ -41,7 +41,7 @@ export default function Orders() {
         );
     }
     useEffect(() => {
-        fetch(`{API_URL}/orders`)
+        fetch(`${API_URL}/orders`)
             .then((res) => {
                 if (!res.ok) throw new Error("Fetch orders error");
                 return res.json();

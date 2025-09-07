@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export default function Products() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,7 +11,7 @@ export default function Products() {
   const [productToDelete, setProductToDelete] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/products")
+    fetch(`${API_URL}/products`)
       .then((res) => {
         if (!res.ok) throw new Error("Fetch products error");
         return res.json();
@@ -28,7 +29,7 @@ export default function Products() {
   const handleDelete = async () => {
     if (!productToDelete) return;
     try {
-      const res = await fetch(`http://localhost:5000/products/${productToDelete._id}`, {
+      const res = await fetch(`${API_URL}/products/${productToDelete._id}`, {
         method: "DELETE",
       });
 

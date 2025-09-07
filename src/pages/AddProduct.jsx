@@ -9,7 +9,7 @@ function AddProduct() {
     const [price, setPrice] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
     const fileInputRef = useRef(null);
-
+    const API_URL = import.meta.env.VITE_API_URL;
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSuccessMsg("");
@@ -18,14 +18,14 @@ function AddProduct() {
             const formData = new FormData();
             formData.append("image", image);
 
-            const uploadRes = await fetch("http://localhost:5000/upload", {
+            const uploadRes = await fetch(`${API_URL}/upload`, {
                 method: "POST",
                 body: formData,
             });
 
             const { url } = await uploadRes.json();
 
-            const res = await fetch("http://localhost:5000/products", {
+            const res = await fetch(`${API_URL}/products`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, description, quantity, category, price, image: url }),

@@ -15,7 +15,7 @@ function AddOrder() {
         try {
             const formData = new FormData();
 
-            const res = await fetch(`{API_URL}/orders`, {
+            const res = await fetch(`${API_URL}/orders`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, phone, address }),
