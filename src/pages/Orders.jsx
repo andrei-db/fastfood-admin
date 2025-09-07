@@ -6,12 +6,13 @@ import { useEffect, useState } from "react";
 
 
 export default function Orders() {
+    const API_URL = import.meta.env.VITE_API_URL;
     const [loading, setLoading] = useState(true);
     const [orders, setOrders] = useState([]);
     const statusStyles = {
         pending: {
             label: "Pending",
-            color: "bg-gray-100 text-gray-800"
+            color: "bg-gray-200 text-gray-800"
         },
         preparing: {
             label: "Preparing",
@@ -40,7 +41,7 @@ export default function Orders() {
         );
     }
     useEffect(() => {
-        fetch("http://localhost:5000/orders")
+        fetch(`{API_URL}/orders`)
             .then((res) => {
                 if (!res.ok) throw new Error("Fetch orders error");
                 return res.json();
@@ -58,7 +59,7 @@ export default function Orders() {
     return (
         <div className="ms-64 p-5 flex flex-col min-h-screen text-gray-800">
             <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-bold">Products</h1>
+                <h1 className="text-3xl font-bold">Orders</h1>
                 <div className="flex items-center gap-6">
                     <div className="bg-white flex p-2 rounded-md">
                         <SearchIcon />
@@ -71,7 +72,7 @@ export default function Orders() {
 
             <div className="flex justify-end my-5">
                 <Link
-                    to="/products/add"
+                    to="/orders/add"
                     className="flex bg-red-500 hover:bg-red-600 p-2 text-white rounded-md font-semibold"
                 >
                     <Plus />
@@ -93,7 +94,7 @@ export default function Orders() {
                     </thead>
                     <tbody className="text-start">
                         {orders.map((o) => (
-                            <tr key={o._id}>
+                            <tr key={o._id} className="cursor-pointer hover:bg-gray-100 transition ease-and-out">
                                 <td className="border-b border-gray-200 py-2">{o._id}</td>
                                 <td className="border-b border-gray-200">
                                     {new Date(o.createdAt).toLocaleDateString("en-US", {

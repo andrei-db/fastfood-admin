@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { Hamburger, LayoutDashboard, Settings, Receipt} from "lucide-react";
-export default function Sidebar() {
+function Sidebar() {
   return (
     <div className="fixed top-0 left-0 w-64 h-full bg-white text-black shadow-lg">
       <div className="flex justify-center items-center py-5">
@@ -67,3 +67,4 @@ export default function Sidebar() {
     </div>
   );
 }
+export default Sidebar;

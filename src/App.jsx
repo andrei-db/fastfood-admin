@@ -4,9 +4,10 @@ import Dashboard from './pages/Dashboard'
 import Products from './pages/Products'
 import Settings from './pages/Settings'
 import AddProduct from './pages/AddProduct'
-import Sidebar from './components/sidebar'
+import Sidebar from './components/Sidebar'
 import EditProduct from './pages/EditProduct'
 import Orders from './pages/Orders'
+import AddOrder from './pages/AddOrder'
 function App() {
 
   return (
@@ -20,10 +21,9 @@ function App() {
         <Route path="/products/add" element={<AddProduct />} />
         <Route path="/products/:id" element={<EditProduct />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/orders/:id" element={<AddOrder />} />
       </Routes>
-      
     </>
-
   );
 }
 
