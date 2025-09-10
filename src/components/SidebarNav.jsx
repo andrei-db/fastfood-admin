@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
-import { Hamburger, LayoutDashboard, Settings, Receipt} from "lucide-react";
-function Sidebar() {
+import { Hamburger, LayoutDashboard, Settings, Receipt } from "lucide-react";
+import LogoutButton from "./LogoutButton";
+function SidebarNav() {
   return (
     <div className="fixed top-0 left-0 w-64 h-full bg-white text-black shadow-lg">
       <div className="flex justify-center items-center py-5">
@@ -13,58 +14,57 @@ function Sidebar() {
         <NavLink
           to="/"
           className={({ isActive }) =>
-            `flex px-3 py-2 rounded-lg transition my-2 ${
-              isActive
-                ? "bg-red-500 text-white"
-                : "text-gray-700 hover:bg-gray-200"
+            `flex px-3 py-2 rounded-lg transition my-2 ${isActive
+              ? "bg-red-500 text-white"
+              : "text-gray-700 hover:bg-gray-200"
             }`
           }
         >
-            <LayoutDashboard className="me-3"/>
+          <LayoutDashboard className="me-3" />
           Dashboard
         </NavLink>
 
         <NavLink
           to="/products"
           className={({ isActive }) =>
-            `flex px-3 py-2 rounded-lg transition  my-2 ${
-              isActive
-                ? "bg-red-500 text-white"
-                : "text-gray-700 hover:bg-gray-200"
+            `flex px-3 py-2 rounded-lg transition  my-2 ${isActive
+              ? "bg-red-500 text-white"
+              : "text-gray-700 hover:bg-gray-200"
             }`
           }
         >
-            <Hamburger className="me-3"/>
+          <Hamburger className="me-3" />
           Products
         </NavLink>
         <NavLink
           to="/orders"
           className={({ isActive }) =>
-            `flex px-3 py-2 rounded-lg transition my-2 ${
-              isActive
-                ? "bg-red-500 text-white"
-                : "text-gray-700 hover:bg-gray-200"
+            `flex px-3 py-2 rounded-lg transition my-2 ${isActive
+              ? "bg-red-500 text-white"
+              : "text-gray-700 hover:bg-gray-200"
             }`
           }
         >
-            <Receipt className="me-3" />
+          <Receipt className="me-3" />
           Orders
         </NavLink>
         <NavLink
           to="/settings"
           className={({ isActive }) =>
-            `flex px-3 py-2 rounded-lg transition my-2 ${
-              isActive
-                ? "bg-red-500 text-white"
-                : "text-gray-700 hover:bg-gray-200"
+            `flex px-3 py-2 rounded-lg transition my-2 ${isActive
+              ? "bg-red-500 text-white"
+              : "text-gray-700 hover:bg-gray-200"
             }`
           }
         >
-            <Settings className="me-3" />
+          <Settings className="me-3" />
           Settings
         </NavLink>
+        
+          <LogoutButton />
+        
       </div>
     </div>
   );
 }
-export default Sidebar;
+export default SidebarNav;

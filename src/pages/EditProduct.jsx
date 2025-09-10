@@ -1,7 +1,9 @@
-import { SearchIcon, BellIcon, CircleUser, EditIcon } from "lucide-react";
+import { SearchIcon, BellIcon, CircleUser, EditIcon, Sidebar } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ConfirmModal from "../components/ConfirmModal";
+import SidebarNav from '../components/SidebarNav';
+const API_URL = import.meta.env.VITE_API_URL;
 export default function EditProduct() {
     const [name, setName] = useState("");
     const [image, setImage] = useState("");
@@ -12,8 +14,13 @@ export default function EditProduct() {
     const [open, setConfirmModalOpen] = useState(false);
     const { id } = useParams();
     const [file, setFile] = useState(null);
+    const token = localStorage.getItem("token");
     useEffect(() => {
-        fetch(`http://localhost:5000/products/${id}`)
+        fetch(`${API_URL}/products/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
             .then((res) => res.json())
             .then((data) => {
                 setName(data.name);
@@ -34,8 +41,11 @@ export default function EditProduct() {
             const formData = new FormData();
             formData.append("image", file);
 
-            const uploadRes = await fetch("http://localhost:5000/upload", {
+            const uploadRes = await fetch(`${API_URL}/upload`, {
                 method: "POST",
+                headers:{
+                    Authorization: `Bearer ${token}`
+                },
                 body: formData,
             });
 
@@ -45,7 +55,9 @@ export default function EditProduct() {
 
         const res = await fetch(`http://localhost:5000/products/${id}`, {
             method: "PUT",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}` },
             body: JSON.stringify({
                 name,
                 description,
@@ -69,6 +81,7 @@ export default function EditProduct() {
     if (loading) return <p>Loading...</p>;
     return (
         <div className="ms-64 p-5 flex flex-col min-h-screen">
+            <SidebarNav />
             <div className="flex justify-between items-center text-gray-800">
                 <h1 className="text-3xl font-bold">Products &gt; Edit Product</h1>
                 <div className="flex items-center gap-6">

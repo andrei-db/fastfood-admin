@@ -1,8 +1,10 @@
 import { SearchIcon, BellIcon, CircleUser } from "lucide-react";
-
+import Sidebar from "../components/SidebarNav";
 export default function Settings() {
     return (
-        <div className="ms-64 p-5 flex flex-col min-h-screen">
+        <div>
+            <Sidebar />
+            <div className="ms-64 p-5 flex flex-col min-h-screen">
             <div className="flex justify-between items-center text-gray-800">
                 <h1 className="text-3xl font-bold">Settings</h1>
                 <div className="flex items-center gap-6">
@@ -19,5 +21,7 @@ export default function Settings() {
                 </div>
             </div>
         </div>
+        </div>
+        
     );
 }

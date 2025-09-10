@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { SearchIcon, BellIcon, CircleUser } from "lucide-react";
+import SidebarNav from "../components/SidebarNav";
 function AddProduct() {
     const [image, setImage] = useState(null);
     const [name, setName] = useState("");
@@ -31,7 +32,7 @@ function AddProduct() {
                 body: JSON.stringify({ name, description, quantity, category, price, image: url }),
             });
             if (res.ok) {
-                setSuccessMsg("✅ Product added successfully!");
+                setSuccessMsg("Product added successfully!");
 
                 setName("");
                 setDescription("");
@@ -44,12 +45,12 @@ function AddProduct() {
                     fileInputRef.current.value = "";
                 }
             } else {
-                setSuccessMsg("❌ Failed to add product.");
+                setSuccessMsg("Failed to add product.");
             }
         }
         catch (err) {
             console.error(err);
-            setSuccessMsg("❌ Error while adding product.");
+            setSuccessMsg("Error while adding product.");
         }
 
 
@@ -58,6 +59,7 @@ function AddProduct() {
 
     return (
         <div className="ms-64 p-5 flex flex-col min-h-screen">
+            <SidebarNav />
             <div className="flex justify-between items-center text-gray-800">
                 <h1 className="text-3xl font-bold">Products &gt; Add</h1>
                 <div className="flex items-center gap-6">
