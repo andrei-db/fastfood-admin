@@ -2,6 +2,7 @@ import { SearchIcon, BellIcon, CircleUser, Plus, Trash2, CircleAlert } from "luc
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../components/SidebarNav";
+
 export default function Products() {
   const API_URL = import.meta.env.VITE_API_URL;
   const [products, setProducts] = useState([]);
@@ -12,45 +13,68 @@ export default function Products() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    fetch(`${API_URL}/products`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Fetch products error");
-        return res.json();
-      })
-      .then((data) => {
-        setProducts(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
+        const fetchProducts = async () => {
+            try {
+                const res = await fetch(`${API_URL}/products`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (res.status === 401 || res.status === 403) {
+                    localStorage.removeItem("token");
+                    window.location.href = "/restricted";
+                    return;
+                }
+
+                if (!res.ok) throw new Error("Error fetching products");
+
+                const data = await res.json();
+                setProducts(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, [API_URL, token]);
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center min-h-screen text-gray-600">
+                <p>Loading products...</p>
+            </div>
+        );
+    }
+    if (error) {
+        return (
+            <div className="flex justify-center items-center min-h-screen text-red-500">
+                <p>{error}</p>
+            </div>
+        );
+    }
 
   const handleDelete = async () => {
     if (!productToDelete) return;
     try {
       const res = await fetch(`${API_URL}/products/${productToDelete._id}`, {
         method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
-      if (!res.ok) {
-        throw new Error("Failed to delete product");
+      if (res.status === 401 || res.status === 403) {
+        localStorage.removeItem("token");
+        window.location.href = "/restricted"; // sau /login
+        return;
       }
+
+      if (!res.ok) throw new Error("Failed to delete product");
 
       setProducts((prev) => prev.filter((p) => p._id !== productToDelete._id));
       setOpen(false);
       setProductToDelete(null);
     } catch (err) {
       console.error(err);
-      alert("Error deleting product");
+      alert("Error deleting product: " + err.message);
     }
   };
 
@@ -75,12 +99,12 @@ export default function Products() {
             to="/products/add"
             className="flex bg-red-500 hover:bg-red-600 p-2 text-white rounded-md font-semibold"
           >
-            <Plus />
+            <Plus className="mr-1" />
             Add new product
           </Link>
         </div>
 
-        <div className="rounded-md bg-white h-140 overflow-y-auto">
+        <div className="rounded-md bg-white max-h-[600px] overflow-y-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6 items-start">
             {products.map((p) => (
               <div
@@ -100,11 +124,13 @@ export default function Products() {
 
                 <Link to={`/products/${p._id}`}>
                   <img
-                    className="hover:rotate-10 transition duration-300 ease-in-out"
+                    className="hover:rotate-2 transition duration-300 ease-in-out w-full h-48 object-cover"
                     src={p.image}
                     alt={p.name}
                   />
-                  <h2 className="italic text-gray-600 text-xl font-semibold mb-3">{p.name}</h2>
+                  <h2 className="italic text-gray-600 text-xl font-semibold mb-3 p-2">
+                    {p.name}
+                  </h2>
                 </Link>
               </div>
             ))}

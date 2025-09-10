@@ -29,6 +29,7 @@ export default function Orders() {
     const API_URL = import.meta.env.VITE_API_URL;
     const [loading, setLoading] = useState(true);
     const [orders, setOrders] = useState([]);
+    const [error, setError] = useState(null);
     const token = localStorage.getItem("token");
     const statusStyles = {
         pending: {
@@ -62,23 +63,45 @@ export default function Orders() {
         );
     }
     useEffect(() => {
-        fetch(`${API_URL}/orders`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-            .then((res) => {
-                if (!res.ok) throw new Error("Fetch orders error");
-                return res.json();
-            })
-            .then((data) => {
+        const fetchOrders = async () => {
+            try {
+                const res = await fetch(`${API_URL}/orders`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (res.status === 401 || res.status === 403) {
+                    localStorage.removeItem("token");
+                    window.location.href = "/restricted";
+                    return;
+                }
+
+                if (!res.ok) throw new Error("Error fetching orders");
+
+                const data = await res.json();
                 setOrders(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
                 setLoading(false);
-            })
-            .catch((err) => {
-                setLoading(false);
-            });
-    }, []);
+            }
+        };
+
+        fetchOrders();
+    }, [API_URL, token]);
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center min-h-screen text-gray-600">
+                <p>Loading orders...</p>
+            </div>
+        );
+    }
+    if (error) {
+        return (
+            <div className="flex justify-center items-center min-h-screen text-red-500">
+                <p>{error}</p>
+            </div>
+        );
+    }
 
     return (
         <>

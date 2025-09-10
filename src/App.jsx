@@ -10,6 +10,7 @@ import Orders from './pages/Orders'
 import AddOrder from './pages/AddOrder'
 import Login from './pages/Login'
 import PrivateRoute from './components/PrivateRoute'
+import Restricted from './components/Restricted'
 function App() {
 
   return (
@@ -57,6 +58,7 @@ function App() {
         />
 
         <Route path="/login" element={<Login />} />
+        <Route path="/restricted" element={<Restricted />} />
       </Routes>
     </>
   );
