@@ -2,12 +2,34 @@ import { SearchIcon, BellIcon, CircleUser, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Sidebar from "../components/SidebarNav";
+function formatOrderDate(dateString) {
+    const date = new Date(dateString);
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
 
+    const isToday = date.toDateString() === today.toDateString();
+    const isYesterday = date.toDateString() === yesterday.toDateString();
+
+    const time = date.toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+    });
+
+    if (isToday) return `Today, ${time}`;
+    if (isYesterday) return `Yesterday, ${time}`;
+
+    return date.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+    }) + `, ${time}`;
+}
 export default function Orders() {
     const API_URL = import.meta.env.VITE_API_URL;
     const [loading, setLoading] = useState(true);
     const [orders, setOrders] = useState([]);
-    const token=localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const statusStyles = {
         pending: {
             label: "Pending",
@@ -40,7 +62,7 @@ export default function Orders() {
         );
     }
     useEffect(() => {
-        fetch(`${API_URL}/orders`,{
+        fetch(`${API_URL}/orders`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -101,13 +123,9 @@ export default function Orders() {
                                 <tr key={o._id} className="cursor-pointer hover:bg-gray-100 transition ease-and-out">
                                     <td className="border-b border-gray-200 py-2">{o._id}</td>
                                     <td className="border-b border-gray-200">
-                                        {new Date(o.createdAt).toLocaleDateString("en-US", {
-                                            year: "numeric",
-                                            month: "2-digit",
-                                            day: "2-digit",
-                                            hour: "2-digit",
-                                            minute: "2-digit",
-                                        })}</td>
+                                        {
+                                            formatOrderDate(o.createdAt)
+                                        }</td>
                                     <td className="border-b border-gray-200">{o.name} $</td>
                                     <td className="border-b border-gray-200">{o.total} $</td>
                                     <td className="border-b border-gray-200"><StatusBadge status={o.status} /></td>
