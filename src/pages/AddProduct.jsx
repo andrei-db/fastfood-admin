@@ -11,6 +11,7 @@ function AddProduct() {
     const [successMsg, setSuccessMsg] = useState("");
     const fileInputRef = useRef(null);
     const API_URL = import.meta.env.VITE_API_URL;
+    const token = localStorage.getItem("token");
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSuccessMsg("");
@@ -21,6 +22,7 @@ function AddProduct() {
 
             const uploadRes = await fetch(`${API_URL}/upload`, {
                 method: "POST",
+                headers: { Authorization: `Bearer ${token}` },
                 body: formData,
             });
 
@@ -28,7 +30,7 @@ function AddProduct() {
 
             const res = await fetch(`${API_URL}/products`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
                 body: JSON.stringify({ name, description, quantity, category, price, image: url }),
             });
             if (res.ok) {

@@ -63,7 +63,7 @@ export default function Products() {
 
       if (res.status === 401 || res.status === 403) {
         localStorage.removeItem("token");
-        window.location.href = "/restricted"; // sau /login
+        window.location.href = "/restricted";
         return;
       }
 
@@ -104,7 +104,7 @@ export default function Products() {
           </Link>
         </div>
 
-        <div className="rounded-md bg-white max-h-[600px] overflow-y-auto">
+        <div className="rounded-md bg-white overflow-y-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6 items-start">
             {products.map((p) => (
               <div
