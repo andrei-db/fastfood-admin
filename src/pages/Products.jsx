@@ -13,45 +13,45 @@ export default function Products() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const res = await fetch(`${API_URL}/products`, {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch(`${API_URL}/products`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-                if (res.status === 401 || res.status === 403) {
-                    localStorage.removeItem("token");
-                    window.location.href = "/restricted";
-                    return;
-                }
+        if (res.status === 401 || res.status === 403) {
+          localStorage.removeItem("token");
+          window.location.href = "/restricted";
+          return;
+        }
 
-                if (!res.ok) throw new Error("Error fetching products");
+        if (!res.ok) throw new Error("Error fetching products");
 
-                const data = await res.json();
-                setProducts(data);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+        const data = await res.json();
+        setProducts(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        fetchProducts();
-    }, [API_URL, token]);
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center min-h-screen text-gray-600">
-                <p>Loading products...</p>
-            </div>
-        );
-    }
-    if (error) {
-        return (
-            <div className="flex justify-center items-center min-h-screen text-red-500">
-                <p>{error}</p>
-            </div>
-        );
-    }
+    fetchProducts();
+  }, [API_URL, token]);
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen text-gray-600">
+        <p>Loading products...</p>
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className="flex justify-center items-center min-h-screen text-red-500">
+        <p>{error}</p>
+      </div>
+    );
+  }
 
   const handleDelete = async () => {
     if (!productToDelete) return;
@@ -124,13 +124,19 @@ export default function Products() {
 
                 <Link to={`/products/${p._id}`}>
                   <img
-                    className="hover:rotate-2 transition duration-300 ease-in-out w-full h-48 object-cover"
+                    className="hover:rotate-5 transition duration-300 ease-in-out w-full object-cover"
                     src={p.image}
                     alt={p.name}
                   />
-                  <h2 className="italic text-gray-600 text-xl font-semibold mb-3 p-2">
-                    {p.name}
-                  </h2>
+                  <div className="flex justify-between px-5">
+                    <h2 className="italic text-gray-600 text-xl font-semibold mb-3 p-2">
+                      {p.name}
+                    </h2>
+                    <span className="text-gray-700 text-2xl font-bold mb-3 p-2">
+                      ${p.price}
+                    </span>
+                  </div>
+
                 </Link>
               </div>
             ))}
