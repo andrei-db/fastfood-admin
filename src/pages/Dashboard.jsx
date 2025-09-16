@@ -1,6 +1,7 @@
-import { SearchIcon, BellIcon, CircleUser, DollarSign, Book } from "lucide-react";
+import { SearchIcon, BellIcon, CircleUser, DollarSign, Book, Database } from "lucide-react";
 import Sidebar from "../components/SidebarNav";
 import { useEffect, useState } from "react";
+import ReactApexChart from "react-apexcharts";
 
 export default function Dashboard() {
     const API_URL = import.meta.env.VITE_API_URL;
@@ -11,6 +12,11 @@ export default function Dashboard() {
     const [ordersCount, setOrdersCount] = useState(null);
     const [revenue, setRevenue] = useState(null);
     const [averageOrderValue, setAverageOrderValue] = useState(null);
+    const [deliveredOrders, setDeliveredOrders] = useState(null);
+    const [pendingOrders, setPendingOrders] = useState(null);
+    const [canceledOrders, setCanceledOrders] = useState(null);
+    const [chartSeries, setChartSeries] = useState([]);
+    const [chartCategories, setChartCategories] = useState([]);
     useEffect(() => {
         const fetchDashboard = async () => {
             try {
@@ -24,6 +30,15 @@ export default function Dashboard() {
                 setOrdersCount(data.ordersCount);
                 setRevenue(data.revenue);
                 setAverageOrderValue(data.averageOrderValue);
+                setCanceledOrders(data.canceledOrdersCount);
+                setPendingOrders(data.pendingOrdersCount);
+                setDeliveredOrders(data.deliveredOrdersCount);
+
+                setChartSeries([
+                    { name: "Incomes", data: data.incomes },
+                    { name: "Expenses", data: data.expenses },
+                ]);
+                setChartCategories(data.dates);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -34,8 +49,60 @@ export default function Dashboard() {
         fetchDashboard();
     }, [API_URL, token]);
 
+    const OrdersStatusChart = ({ deliveredOrders, canceledOrders, pendingOrders }) => {
+        const series = [
+            deliveredOrders || 0,
+            canceledOrders || 0,
+            pendingOrders || 0,
+        ];
+        const options = {
+            colors: ["#16a34a", "#dc2626", "#626262"],
+            chart: { type: "pie" },
+            labels: ["Delivered", "Canceled", "Pending"],
+            responsive: [
+                {
+                    breakpoint: 480,
+                    options: {
+                        chart: { width: 200 },
+                        legend: { position: "bottom" },
+                    },
+                },
+            ],
+        };
+        return (
+            <div className="w-full">
+                <div id="chart">
+                    <ReactApexChart options={options} series={series} type="pie" height={350} />
+                </div>
+                <div id="html-dist"></div>
+            </div>
+        );
+    };
+    const RevenueExpensesChart = ({ series, categories }) => {
+        const options = {
+            colors: ["#16a34a", "#dc2626"],
+            chart: { type: "area", height: 350 },
+            dataLabels: { enabled: false },
+            stroke: { curve: "smooth" },
+            xaxis: { type: "category", categories },
+            tooltip: { x: { format: "dd/MM/yy" } },
+        };
 
+        return (
+            <div className="w-full">
+                <div id="chart">
+                    <ReactApexChart
+                        options={options}
+                        series={series}
+                        type="area"
+                        height={350}
+                    />
+                </div>
+                <div id="html-dist"></div>
+            </div>
 
+        );
+    };
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-screen text-gray-600">
@@ -117,11 +184,34 @@ export default function Dashboard() {
 
                     </div>
                 </div>
-                
+                <div className="grid md:grid-cols-2 gap-5">
+                    <div className="bg-white rounded-xl mt-5  p-5">
+                        <div className="flex justify-between mb-10">
+                            <div className="flex flex-col items-start">
+                                <div>Orders by Status</div>
+                            </div>
+                        </div>
+                        <div className="flex">
+                            <OrdersStatusChart
+                                deliveredOrders={deliveredOrders}
+                                canceledOrders={canceledOrders}
+                                pendingOrders={pendingOrders}
+                            />
+                        </div>
+                    </div>
+                    <div className="bg-white rounded-xl mt-5  p-5">
+                        <div className="flex justify-between mb-10">
+                            <div className="flex flex-col items-start">
+                                <div>Revenue & Expenses Over Time</div>
+                            </div>
 
+                        </div>
+                        <div className="flex">
+                            <RevenueExpensesChart series={chartSeries} categories={chartCategories} />
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </div>
-
     );
 }
