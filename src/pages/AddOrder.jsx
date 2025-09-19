@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SearchIcon, BellIcon, CircleUser, Plus, Sidebar } from "lucide-react";
 import SidebarNav from "../components/SidebarNav";
+import Navbar from "../components/Navbar";
 function AddOrder() {
     const API_URL = import.meta.env.VITE_API_URL;
     const [name, setName] = useState("");
@@ -48,23 +49,9 @@ function AddOrder() {
     };
 
     return (
-        <div className="ms-64 p-5 flex flex-col min-h-screen">
+        <div className="text-gray-700 ms-64 flex flex-col min-h-screen">
             <SidebarNav />
-            <div className="flex justify-between items-center text-gray-800">
-                <h1 className="text-3xl font-bold">Orders &gt; Add</h1>
-                <div className="flex items-center gap-6">
-                    <div className="bg-white flex p-2 rounded-md">
-                        <SearchIcon />
-                        <input className="ms-2" type="text" placeholder="Search ..." />
-                    </div>
-                    <div>
-                        <BellIcon />
-                    </div>
-                    <div>
-                        <CircleUser />
-                    </div>
-                </div>
-            </div>
+            <Navbar pageName="Add orders"/>
 
             <div className="my-10 flex justify-center items-start">
                 <form onSubmit={handleSubmit} className="text-gray-500 w-md rounded-md p-6 bg-white flex flex-col gap-5 items-start">

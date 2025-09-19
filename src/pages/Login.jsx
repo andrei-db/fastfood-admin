@@ -25,7 +25,7 @@ export default function Login() {
 
             const data = await res.json();
             localStorage.setItem("token", data.token);
-
+            localStorage.setItem("user", JSON.stringify(data.user));
             navigate("/");
         } catch (err) {
             console.error(err);
@@ -82,7 +82,6 @@ export default function Login() {
                     </button>
                 </form>
 
-                {/* Footer */}
                 <p className="text-sm text-gray-500 text-center mt-6">
                     Forgot your password?{" "}
                     <a href="#" className="text-red-500 hover:underline">

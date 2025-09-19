@@ -11,6 +11,7 @@ import AddOrder from './pages/AddOrder'
 import Login from './pages/Login'
 import PrivateRoute from './components/PrivateRoute'
 import Restricted from './components/Restricted'
+import Profile from './pages/Profile'
 function App() {
 
   return (
@@ -41,7 +42,7 @@ function App() {
             <EditProduct />
           </PrivateRoute>}
         />
-       <Route path="/orders" element={
+        <Route path="/orders" element={
           <PrivateRoute >
             <Orders />
           </PrivateRoute>}
@@ -56,7 +57,11 @@ function App() {
             <Settings />
           </PrivateRoute>}
         />
-
+        <Route path="/profile" element={
+          <PrivateRoute >
+            <Profile />
+          </PrivateRoute>}
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/restricted" element={<Restricted />} />
       </Routes>

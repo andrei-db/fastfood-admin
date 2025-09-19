@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { SearchIcon, BellIcon, CircleUser } from "lucide-react";
 import SidebarNav from "../components/SidebarNav";
+import Navbar from "../components/Navbar";
 function AddProduct() {
     const [image, setImage] = useState(null);
     const [name, setName] = useState("");
@@ -60,23 +61,9 @@ function AddProduct() {
     };
 
     return (
-        <div className="ms-64 p-5 flex flex-col min-h-screen">
+        <div className="text-gray-700 ms-64 flex flex-col">
             <SidebarNav />
-            <div className="flex justify-between items-center text-gray-800">
-                <h1 className="text-3xl font-bold">Products &gt; Add</h1>
-                <div className="flex items-center gap-6">
-                    <div className="bg-white flex p-2 rounded-md">
-                        <SearchIcon />
-                        <input className="ms-2" type="text" placeholder="Search ..." />
-                    </div>
-                    <div>
-                        <BellIcon />
-                    </div>
-                    <div>
-                        <CircleUser />
-                    </div>
-                </div>
-            </div>
+            <Navbar pageName="Add product"/>
 
             <div className="my-10">
                 <form onSubmit={handleSubmit} className="text-gray-500 w-md mx-auto rounded-md p-6 bg-white flex flex-col gap-5 items-center">
