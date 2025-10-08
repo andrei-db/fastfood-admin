@@ -50,9 +50,6 @@ function AddOrder() {
 
     return (
         <div className="text-gray-700 ms-64 flex flex-col min-h-screen">
-            <SidebarNav />
-            <Navbar pageName="Add orders"/>
-
             <div className="my-10 flex justify-center items-start">
                 <form onSubmit={handleSubmit} className="text-gray-500 w-md rounded-md p-6 bg-white flex flex-col gap-5 items-start">
                     <h2 className="text-xl text-gray-600 font-semibold text-start">Customer details</h2>

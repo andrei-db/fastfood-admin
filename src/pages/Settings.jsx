@@ -50,9 +50,8 @@ export default function Settings() {
     }
     return (
         <div className="text-gray-700">
-            <Sidebar />
             <div className="ms-64 flex flex-col min-h-screen">
-               <Navbar pageName="Settings"/>
+               
             </div>
         </div>
 

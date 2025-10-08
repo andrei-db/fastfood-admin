@@ -1,8 +1,6 @@
 import { DollarSign, Book } from "lucide-react";
-import Sidebar from "../components/SidebarNav";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
-import Navbar from '../components/Navbar'
 export default function Dashboard() {
     const API_URL = import.meta.env.VITE_API_URL;
     const [loading, setLoading] = useState(true);
@@ -123,10 +121,7 @@ export default function Dashboard() {
 
     return (
         <div className="text-gray-700">
-            <Sidebar />
-            
             <div className="ms-64">
-                <Navbar pageName="Dashboard" />
                 <div className="flex-1 p-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                         <div className="bg-white h-40  font-semibold p-5 flex justify-between rounded-xl">

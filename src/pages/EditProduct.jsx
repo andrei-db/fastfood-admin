@@ -2,8 +2,6 @@ import { SearchIcon, BellIcon, CircleUser, EditIcon, Sidebar } from "lucide-reac
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ConfirmModal from "../components/ConfirmModal";
-import SidebarNav from '../components/SidebarNav';
-import Navbar from "../components/Navbar";
 const API_URL = import.meta.env.VITE_API_URL;
 export default function EditProduct() {
     const [name, setName] = useState("");
@@ -54,7 +52,7 @@ export default function EditProduct() {
             imageUrl = url;
         }
 
-        const res = await fetch(`http://localhost:5000/products/${id}`, {
+        const res = await fetch(`http://localhost:5000/products/admin/${id}`, {
             method: "PUT",
             headers: { 
                 "Content-Type": "application/json",
@@ -82,9 +80,6 @@ export default function EditProduct() {
     if (loading) return <p>Loading...</p>;
     return (
         <div className="text-gray-700 ms-64 flex flex-col">
-            <SidebarNav />
-            <Navbar pageName="Edit product"/>
-
             <div className="my-10 mx-auto">
                 <div className="grid grid-cols-2 bg-white rounded-md">
                     <div className="relative p-10">

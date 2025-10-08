@@ -4,7 +4,6 @@ import Dashboard from './pages/Dashboard'
 import Products from './pages/Products'
 import Settings from './pages/Settings'
 import AddProduct from './pages/AddProduct'
-import Sidebar from './components/SidebarNav'
 import EditProduct from './pages/EditProduct'
 import Orders from './pages/Orders'
 import AddOrder from './pages/AddOrder'
@@ -12,6 +11,7 @@ import Login from './pages/Login'
 import PrivateRoute from './components/PrivateRoute'
 import Restricted from './components/Restricted'
 import Profile from './pages/Profile'
+import PageLayout from './layout/PageLayout'
 function App() {
 
   return (
@@ -19,47 +19,66 @@ function App() {
       <Routes>
         <Route path="/" element={
           <PrivateRoute >
-            <Dashboard />
+            <PageLayout>
+              <Dashboard />
+            </PageLayout>
+
           </PrivateRoute>}
         />
         <Route path="/dashboard" element={
           <PrivateRoute >
-            <Dashboard />
+             <PageLayout>
+              <Dashboard />
+            </PageLayout>
           </PrivateRoute>}
         />
         <Route path="/products" element={
           <PrivateRoute >
-            <Products />
+             <PageLayout>
+              <Products />
+            </PageLayout>
           </PrivateRoute>}
         />
         <Route path="/products/add" element={
           <PrivateRoute >
-            <AddProduct />
+            <PageLayout>
+              <AddProduct />
+            </PageLayout>
           </PrivateRoute>}
         />
         <Route path="/products/:id" element={
           <PrivateRoute >
-            <EditProduct />
+            <PageLayout>
+              <EditProduct />
+            </PageLayout>
           </PrivateRoute>}
         />
         <Route path="/orders" element={
           <PrivateRoute >
-            <Orders />
+            <PageLayout>
+              <Orders />
+            </PageLayout>
           </PrivateRoute>}
         />
         <Route path="/orders/add" element={
           <PrivateRoute >
-            <AddOrder />
+            <PageLayout>
+              <AddOrder />
+            </PageLayout>
           </PrivateRoute>}
         />
         <Route path="/settings" element={
           <PrivateRoute >
-            <Settings />
+            <PageLayout>
+              <Settings />
+            </PageLayout>
           </PrivateRoute>}
         />
         <Route path="/profile" element={
           <PrivateRoute >
-            <Profile />
+            <PageLayout>
+              <Profile />
+            </PageLayout>
           </PrivateRoute>}
         />
         <Route path="/login" element={<Login />} />

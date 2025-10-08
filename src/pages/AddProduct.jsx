@@ -52,19 +52,11 @@ function AddProduct() {
             }
         }
         catch (err) {
-            console.error(err);
             setSuccessMsg("Error while adding product.");
         }
-
-
-
     };
-
     return (
         <div className="text-gray-700 ms-64 flex flex-col">
-            <SidebarNav />
-            <Navbar pageName="Add product"/>
-
             <div className="my-10">
                 <form onSubmit={handleSubmit} className="text-gray-500 w-md mx-auto rounded-md p-6 bg-white flex flex-col gap-5 items-center">
                     <h2 className="text-2xl text-gray-600 font-semibold">Add a new product</h2>

@@ -56,7 +56,7 @@ export default function Products() {
   const handleDelete = async () => {
     if (!productToDelete) return;
     try {
-      const res = await fetch(`${API_URL}/products/${productToDelete._id}`, {
+      const res = await fetch(`${API_URL}/products/admin/${productToDelete._id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -80,11 +80,8 @@ export default function Products() {
 
   return (
     <div className="text-gray-700">
-      <Sidebar />
-
       <div className="ms-64">
-        <Navbar pageName="Products" />
-        <div className="p-5">
+        <div>
           <div className="flex justify-end mb-5">
             <Link
               to="/products/add"
@@ -115,7 +112,7 @@ export default function Products() {
 
                   <Link to={`/products/${p._id}`}>
                     <img
-                      className="hover:rotate-5 transition duration-300 ease-in-out w-full object-cover"
+                      className="hover:rotate-5 transition duration-300 ease-in-out w-full h-70"
                       src={p.image}
                       alt={p.name}
                     />

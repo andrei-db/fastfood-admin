@@ -9,7 +9,12 @@ export default function Navbar({ pageName }) {
     return (
         <div>
             <div className="relative bg-white px-5 py-3 shadow-xs flex justify-between items-center">
-                <h1 className="text-xl font-bold">{pageName}</h1>
+                <div className="flex justify-center items-center">
+                    <h1 className="text-4xl font-extrabold text-green-800">
+                        FRESH<span className="text-red-500">FOOD</span>
+                    </h1>
+                </div>
+                {/* <h1 className="text-xl font-bold">{pageName}</h1> */}
                 <div className="flex items-center gap-6">
                     <div className="bg-gray-100 flex p-2 rounded-md">
                         <SearchIcon />
@@ -40,9 +45,9 @@ export default function Navbar({ pageName }) {
                     </Link>
 
                     <LogoutButton
-                        
+
                     />
-                        
+
                 </div>
             )}
         </div>

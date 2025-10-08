@@ -105,9 +105,7 @@ export default function Profile() {
 
     return (
         <div className="text-gray-700">
-            <SidebarNav />
             <div className="ms-64 flex flex-col">
-                <Navbar pageName="Profile" />
                 <div className="flex items-start gap-5 p-5">
                     <div className="w-128 bg-gray-50 rounded-xl">
                         <div className="my-5">

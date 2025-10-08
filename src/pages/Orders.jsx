@@ -66,7 +66,7 @@ export default function Orders() {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const res = await fetch(`${API_URL}/orders`, {
+                const res = await fetch(`${API_URL}/orders/admin`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -106,10 +106,7 @@ export default function Orders() {
 
     return (
         <div>
-            <Sidebar />
             <div className="ms-64 flex flex-col min-h-screen text-gray-800">
-                <Navbar pageName="Orders" />
-
                 <div className="p-5">
                     <div className="flex justify-end mb-5">
                         <Link
